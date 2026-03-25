@@ -145,16 +145,7 @@ git push -u origin main
 
 - Use the **UP ARROW** and **DOWN ARROW** in the terminal to scroll through past commands.
 - Use `CTRL+f` to find (and replace) text within a file.
-- ## Technical Modification
-
-### What I Changed
-I modified the original visualization by replacing the single chart with four pie charts, one for each category in the corpus: dog, cat, car, and truck. I arranged the charts side by side in a 2x2 subplot layout and used different color palettes for each category.
-
-### Why I Made This Change
-I made this change to improve category comparison and make the output more visually informative. Pie charts help show the proportion of top tokens within each category, and displaying them together makes cross-category differences easier to interpret.
-
-### What I Observed
-After running the updated project, I observed that each category had a distinct vocabulary pattern. The animal-related categories showed different dominant terms from the vehicle-related categories, and the side-by-side layout made those differences easier to compare.
+-
 
 ## Terminology
 
@@ -284,3 +275,30 @@ and groups of related terms emerge naturally from the data.
 
 Even before any modeling, we can begin to distinguish categories
 and see how meaning is reflected through **patterns of use**.
+
+# My Project Modifications
+
+This project explores a small text corpus using token frequencies, category comparisons, co-occurrence, and bigrams.
+
+## What I Changed
+
+I created my own version of the example by modifying the visualization section of the project.
+
+My changes included:
+
+1. Replacing the original single bar chart with multiple pie charts
+2. Arranging the pie charts side by side in a 2x2 layout
+3. Using different color palettes for each category
+4. Adding custom observations to interpret the new results
+
+## Why I Made These Changes
+
+I made these changes to improve readability and make comparisons across categories easier. Pie charts emphasize proportional differences, and showing all categories in one figure makes the patterns easier to interpret.
+
+## What I Observed
+
+After running the modified project, I observed that each category showed a distinct token pattern. The side-by-side pie charts made it easier to compare animal categories with vehicle categories. The color changes also made the output more visually clear.
+
+## Key Insight
+
+This project showed that visualization choices can strongly affect how easy it is to interpret text-analysis results. Category comparisons became much clearer when all charts were displayed together.
