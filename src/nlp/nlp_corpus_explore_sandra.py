@@ -117,9 +117,16 @@ print(f"Categories in corpus: {sorted(categories)}")
 # and stripping common punctuation. We also filter out very short tokens (length <= 2).
 # This simple tokenizer is sufficient for our small, controlled corpus.
 # Use the string strip() method to remove punctuation from the beginning and end of each token.
+STOP_WORDS = {"the", "and", "has", "with", "for", "are", "was", "in", "on", "a"}
+
+
 def tokenize(text: str) -> list[str]:
     tokens = text.lower().split()
-    return [t.strip(".,:;!?()[]\"'") for t in tokens if len(t) > 2]
+    return [
+        t.strip(".,:;!?()[]\"'")
+        for t in tokens
+        if len(t) > 2 and t.strip(".,:;!?()[]\"'") not in STOP_WORDS
+    ]
 
 
 # Define a new empty list to hold the token records we will create.
@@ -286,33 +293,37 @@ print(bigram_freq_df.head(10))
 # Section 9. Visualize Token Frequencies
 # ============================================================
 
+# ============================================================
+# Section 9. Visualize Token Frequencies by Category
+# ============================================================
 print("IMPORTANT: Close chart window to continue execution.")
 
-# Define a new DataFrame that filters the category frequency DataFrame
-# to get the top 5 tokens for the "cat" category.
-cat_df = category_freq_df.filter(pl.col("category") == "cat").head(5)
+categories = ["dog", "cat", "car", "truck"]
 
+fig, axes = plt.subplots(2, 2, figsize=(12, 10))
+axes = axes.flatten()
 
-# Create a figure that is 8 inches wide and 4 inches tall
-plt.figure(figsize=(7, 7))
+color_sets = [
+    ["teal", "lightseagreen", "mediumturquoise", "paleturquoise", "darkcyan"],
+    ["coral", "salmon", "lightsalmon", "tomato", "darksalmon"],
+    ["gold", "orange", "khaki", "goldenrod", "moccasin"],
+    ["plum", "orchid", "violet", "mediumorchid", "thistle"],
+]
 
-plt.pie(
-    cat_df["len"],
-    labels=cat_df["token"],
-    autopct="%1.1f%%",
-    startangle=140,
-    colors=["teal", "gold", "coral", "skyblue", "plum"],
-)
-plt.title("Top Cat Tokens (Pie Chart)\n()")
+for i, category in enumerate(categories):
+    subset_df = category_freq_df.filter(pl.col("category") == category).head(5)
 
-# Adjust the layout of the plot to prevent overlap and ensure everything fits well.
+    axes[i].pie(
+        subset_df["len"],
+        labels=subset_df["token"],
+        autopct="%1.1f%%",
+        startangle=140,
+        colors=color_sets[i],
+    )
+    axes[i].set_title(f"Top Tokens: {category.title()}")
+
 plt.tight_layout()
-
-# Display the plot on the screen.
-# The execution of the script will pause until the plot window is closed.
 plt.show()
-
-
 # ============================================================
 # Section 10. Interpret Results and Identify Patterns
 # ============================================================
@@ -327,16 +338,19 @@ print("- Patterns emerge before any machine learning is applied.")
 
 print("\nSANDRA SPECIFIC OBSERVATIONS:")
 print(
-    "- The pie chart makes it easy to compare the proportion of top cat-related tokens."
+    "- The pie charts make it easier to compare dominant tokens within each category."
 )
 print(
-    "- Increasing the context window to 3 gives a broader view of nearby token relationships."
+    "- Dog and cat categories show animal-related vocabulary, while car and truck show vehicle-related vocabulary."
 )
 print(
-    "- Adding extra dog documents changed the corpus balance and slightly affected overall token frequencies."
+    "- The distribution of top tokens differs across categories, showing that each group has a distinct vocabulary pattern."
 )
 print(
-    "- The unique token count helps summarize the variety of vocabulary in the corpus."
+    "- Pie charts highlight proportion, which helps show how strongly certain tokens dominate each category."
+)
+print(
+    "- Comparing categories side by side makes it easier to see which tokens are unique to one topic and which patterns are shared."
 )
 
 

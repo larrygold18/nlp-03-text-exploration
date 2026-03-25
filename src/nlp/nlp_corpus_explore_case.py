@@ -280,29 +280,39 @@ print("IMPORTANT: Close chart window to continue execution.")
 
 # Define a new DataFrame that filters the category frequency DataFrame
 # to get the top 5 tokens for the "dog" category.
-dog_df = category_freq_df.filter(pl.col("category") == "dog").head(5)
+# ============================================================
+# Modified Visualization: Pie Charts in Grid Layout
+# ============================================================
 
-# Create a figure that is 8 inches wide and 4 inches tall
-plt.figure(figsize=(8, 4))
+fig, axes = plt.subplots(2, 2, figsize=(12, 8))
 
-# Add a bar chart to the figure using the tokens as the x-axis and their frequencies as the y-axis.
-plt.bar(dog_df["token"], dog_df["len"])
+# Define categories and colors
+categories = ["Exposure", "Regulatory", "Definition", "Risk"]
+colors_list = [
+    ["skyblue", "lightgreen", "orange", "purple", "pink"],
+    ["salmon", "gold", "lightblue", "green", "coral"],
+    ["lightgreen", "teal", "gold", "pink", "orange"],
+    ["orange", "gold", "lightblue", "green", "purple"],
+]
 
-# Define the x-axis tick parameters to rotate the labels by 45 degrees for better readability.
-# The gca() function gets the current axes of the plot, and tick_params() is used to set the rotation of the x-axis labels.
-ax = plt.gca()
-ax.tick_params(axis="x", labelrotation=45)
+# Loop through each category and plot pie charts
+for i, category in enumerate(categories):
+    row = i // 2
+    col = i % 2
 
-# Set the title and labels for the axes of the plot.
-plt.title("Case Example: Top Tokens (Dog Category)\n(Close this window to continue)")
-plt.xlabel("Token")
-plt.ylabel("Frequency")
+    subset = category_freq_df.filter(pl.col("category") == category).head(5)
 
-# Adjust the layout of the plot to prevent overlap and ensure everything fits well.
+    axes[row, col].pie(
+        subset["len"],
+        labels=subset["token"],
+        autopct="%1.1f%%",
+        startangle=140,
+        colors=colors_list[i],
+    )
+
+    axes[row, col].set_title(f"Top Tokens: {category}")
+
 plt.tight_layout()
-
-# Display the plot on the screen.
-# The execution of the script will pause until the plot window is closed.
 plt.show()
 
 

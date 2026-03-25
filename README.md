@@ -145,6 +145,16 @@ git push -u origin main
 
 - Use the **UP ARROW** and **DOWN ARROW** in the terminal to scroll through past commands.
 - Use `CTRL+f` to find (and replace) text within a file.
+- ## Technical Modification
+
+### What I Changed
+I modified the original visualization by replacing the single chart with four pie charts, one for each category in the corpus: dog, cat, car, and truck. I arranged the charts side by side in a 2x2 subplot layout and used different color palettes for each category.
+
+### Why I Made This Change
+I made this change to improve category comparison and make the output more visually informative. Pie charts help show the proportion of top tokens within each category, and displaying them together makes cross-category differences easier to interpret.
+
+### What I Observed
+After running the updated project, I observed that each category had a distinct vocabulary pattern. The animal-related categories showed different dominant terms from the vehicle-related categories, and the side-by-side layout made those differences easier to compare.
 
 ## Terminology
 
